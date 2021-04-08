@@ -1,0 +1,56 @@
+.tophead {
+    nav{
+        border-bottom: 1px solid $color-gray-3;
+    }
+    .navbar-brand{
+        span{
+            font-size: $fs-3;
+            font-weight: bold;
+            color: $color-blue;
+        }
+    & {
+        @include font($color-black-0,$fs-3,$fw-normal);
+    }  
+    }
+    #navbarSupportedContent {
+        .button{
+            margin-top: 6px;
+        }
+        .btn-signin{
+            @include button($color-white-0,$color-blue,$pd-0,$pd-1,$color-white-0);
+            &:hover{
+                @include button($color-green-1,$color-white-0,$pd-0,$pd-1,$color-green-1);
+                transition: all 0.4s;
+            }
+            &:focus{
+                outline: none;
+            }
+        }
+        .btn-signup{
+            @include button($color-red-0,$color-white-0,$pd-0,$pd-1,$color-white-0);
+            &:hover{
+                @include button($color-white-0,$color-red-0,$pd-0,$pd-1,$color-red-0);
+                transition: all 0.5s;
+            }
+            &:focus{
+                outline: none;
+            }
+        }
+        .active{
+            @include font($color-black-0,$fs-2,$fw-bold);
+            &::after{
+                content: "";
+                width: 0;
+                height: 3px;
+                background: linear-gradient(to right,$color-blue,$color-blue-1);
+                display: block;
+                transition: all 0.5s;
+            }
+            
+            &:hover::after{
+                width: 100%;
+            }
+        }
+        
+    }
+}

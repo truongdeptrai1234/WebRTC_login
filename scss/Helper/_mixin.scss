@@ -1,0 +1,12 @@
+@mixin font($color,$fs,$fw){
+    color:$color;
+    font-size: $fs;
+    font-weight: $fw;
+}
+@mixin button($bg,$fcolor,$pd-x,$pd-y,$bcolor){
+    background-color: $bg;
+    color: $fcolor;
+    padding: $pd-x $pd-y;
+    border: 2px solid $bcolor;
+    border-radius: 7px;
+}

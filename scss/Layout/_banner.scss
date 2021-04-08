@@ -1,0 +1,23 @@
+.right_side img{
+    padding-top: $pd-4;
+    display: inline-block;
+    width: 500px;
+    height: 350px;
+}
+.left_side{
+    .btn-join{
+        display: block;
+        width: 200px;
+        height: 50px;
+        font-size: 20px;
+        line-height: 8px;
+        @include button($color-green-1,$color-white-0,$pd-1,$pd-0,$color-white-0);
+        &:hover{
+            @include button($color-white-0,$color-green-1,$pd-1,$pd-0,$color-green-1);
+            transition: all 0.5s;
+        }
+        &:focus{
+            outline: none;
+        }
+    }
+}
