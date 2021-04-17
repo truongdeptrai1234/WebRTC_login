@@ -1,7 +1,73 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class ModalSignup extends Component {
-  
+  state = {
+    fields: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmpass: "",
+    },
+    errors: {},
+  };
+
+  handleChange(field, e) {
+    let fields = this.state.fields;
+    fields[field] = e.target.value;
+    this.setState({ fields });
+    // alert(this.state.fields[field]);
+  }
+
+  handleValidation() {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+
+    //Name
+    // if (!fields["name"]) {
+    //   formIsValid = false;
+    //   errors["name"] = "Cannot be empty";
+    // }
+
+    // if (typeof fields["name"] !== "undefined") {
+    //   if (!fields["name"].match(/^[a-zA-Z]+$/)) {
+    //     formIsValid = false;
+    //     errors["name"] = "Only letters";
+    //   }
+    // }
+
+    if (!fields["password"] === fields["confirmpass"]) {
+      errors["confirmpass"] = "Password doesn't match";
+      formIsValid = false;
+    }
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (this.handleValidation()){
+    const user = {
+      email: this.state.fields["email"],
+      firstName: this.state.fields["firstName"],
+      lastName: this.state.fields["lastName"],
+      password: this.state.fields["password"],
+    };
+
+    axios
+      .post("https://webrtc-api.ddns.net/auth/signup", user)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      });
+    } else {
+      alert(this.state.errors);
+    }
+  };
+
   render() {
     return (
       <div
@@ -32,15 +98,16 @@ export default class ModalSignup extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form id="formname">
+              <form id="formname" onSubmit={this.handleSubmit}>
                 <div className="form-row">
                   <div className="col">
                     <input
                       type="text"
                       className="form-control"
                       placeholder="First name"
-                      required
                       id="fn"
+                      onChange={this.handleChange.bind(this, "firstName")}
+                      required
                     />
                   </div>
                   <div className="col">
@@ -48,47 +115,56 @@ export default class ModalSignup extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Last name"
-                      required
                       id="ln"
+                      onChange={this.handleChange.bind(this, "lastName")}
+                      required
                     />
                   </div>
                 </div>
+                <div className="form-group pt-1">
+                  <label htmlFor="inputEmail">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="inputEmail"
+                    placeholder="Email"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    onChange={this.handleChange.bind(this, "email")}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="inputPass">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="inputPass"
+                    placeholder="Password"
+                    onChange={this.handleChange.bind(this, "password")}
+                    required
+                  />
+                </div>
+                <div className="form-group" id="confirmpass">
+                  <label htmlFor="inputPassAgain">Confirm Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="inputPassAgain"
+                    placeholder="Confirm Password"
+                    onChange={this.handleChange.bind(this, "confirmpass")}
+                    required
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="submit"
+                    className="btn btn-success"
+                    id="btnfirst"
+                  >
+                    Sign up
+                  </button>
+                </div>
               </form>
-              <div className="form-group pt-1">
-                <label htmlFor="inputEmail">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail"
-                  placeholder="Email"
-                  pattern=".@gmail.com" required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="inputPass">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputPass"
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <div className="form-group" id="confirmpass">
-                <label htmlFor="inputPassAgain">Confirm Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputPassAgain"
-                  placeholder="Confirm Password"
-                  required
-                />
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-success" id="btnfirst">
-                Sign up
-              </button>
             </div>
           </div>
         </div>

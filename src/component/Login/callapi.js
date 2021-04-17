@@ -1,12 +1,7 @@
+import axios from "axios";
 
+const newUser = (user) => {
+  return axios.post("https://webrtc-api.ddns.net/auth/signup", user);
+};
 
-
-const newUser=(user)=>{
-    return axios({
-        url:"https://webrtc-api.ddns.net/auth/signup",
-        method:"POST",
-        data:user,
-    })
-}
-
-export {newUser};
+export { newUser };
