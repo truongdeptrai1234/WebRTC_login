@@ -22,7 +22,7 @@ export default class ModalSignup extends Component {
 
   handleValidation() {
     let fields = this.state.fields;
-    let errors = {};
+    let errors = this.state.errors;
     let formIsValid = true;
 
     //Name
@@ -38,33 +38,33 @@ export default class ModalSignup extends Component {
     //   }
     // }
 
-    if (!fields["password"] === fields["confirmpass"]) {
+    if (!(fields["password"] === fields["confirmpass"])) {
       errors["confirmpass"] = "Password doesn't match";
       formIsValid = false;
     }
-    this.setState({ errors: errors });
+    this.setState({ errors });
     return formIsValid;
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.handleValidation()){
-    const user = {
-      email: this.state.fields["email"],
-      firstName: this.state.fields["firstName"],
-      lastName: this.state.fields["lastName"],
-      password: this.state.fields["password"],
-    };
+    if (this.handleValidation()) {
+      const user = {
+        email: this.state.fields["email"],
+        firstName: this.state.fields["firstName"],
+        lastName: this.state.fields["lastName"],
+        password: this.state.fields["password"],
+      };
 
-    axios
-      .post("https://webrtc-api.ddns.net/auth/signup", user)
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-      });
+      axios
+        .post("https://webrtc-api.ddns.net/auth/signup", user)
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+        });
     } else {
-      alert(this.state.errors);
+      alert(Object.values(this.state.errors));
     }
   };
 
