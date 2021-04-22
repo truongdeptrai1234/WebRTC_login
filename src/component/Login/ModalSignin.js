@@ -1,6 +1,60 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class ModalSignin extends Component {
+  state = {
+    fields: {
+      email: "",
+      password: "",
+    },
+    errors: {},
+  };
+
+  handleChange(field, e) {
+    let fields = this.state.fields;
+    fields[field] = e.target.value;
+    this.setState({ fields });
+    // alert(this.state.fields[field]);
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const user = {
+      email: this.state.fields["email"],
+      password: this.state.fields["password"],
+    };
+
+    axios
+      .post("https://webrtc-api.ddns.net/auth/login", user)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        if (res.status < 300 && res.status > 199) {
+          alert("Login successful!");
+        }
+      })
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data.message);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error", error.message);
+        }
+        console.log(error.config);
+      });
+  };
+
   render() {
     return (
       <div
@@ -18,8 +72,7 @@ export default class ModalSignin extends Component {
                 className="modal-title text-left font-weight-bold"
                 id="exampleModalLabel"
               >
-                <span style={{ color: "#007791" }}>V</span>icon welcome <br />
-                back
+                <span style={{ color: "#007791" }}>V</span>icon welcome back
               </h5>
               <button
                 type="button"
@@ -31,29 +84,35 @@ export default class ModalSignin extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <div className="form-group pt-1">
+              <form onSubmit={this.handleSubmit} className="form-group pt-1">
                 <label htmlFor="inputEmailSignup">Email</label>
                 <input
                   type="email"
                   className="form-control"
                   id="inputEmailSignup"
                   placeholder="Email"
+                  onChange={this.handleChange.bind(this, "email")}
+                  required
                 />
-              </div>
-              <div className="form-group">
                 <label htmlFor="inputPassSignup">Password</label>
                 <input
                   type="password"
                   className="form-control"
                   id="inputPassSignup"
                   placeholder="Password"
+                  onChange={this.handleChange.bind(this, "password")}
+                  required
                 />
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-success" id="btnsecond">
-                Sign in
-              </button>
+                <div className="modal-footer">
+                  <button
+                    type="submit"
+                    className="btn btn-success"
+                    id="btnsecond"
+                  >
+                    Sign in
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
