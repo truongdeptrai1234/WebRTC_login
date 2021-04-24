@@ -93,12 +93,10 @@ export default class ModalSignup extends Component {
   render() {
     return (
       <div
-        className="modal fade"
         id="exampleModal"
         tabIndex={-1}
         role="dialog"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
       >
         <div className="modal-dialog" style={{ width: 350 }} role="document">
           <div className="modal-content">

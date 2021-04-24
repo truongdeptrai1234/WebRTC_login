@@ -16,30 +16,26 @@ export default class Header extends Component {
           >
             <ul className="navbar-nav">
               <li className="nav-item active px-3">
-                <a className="nav-link about" href="#">
+                <a className="nav-link about">
                   About
                 </a>
               </li>
               <li className="nav-item button px-2">
-                <button
+                <a
                   className="btn-signin nav-link"
                   id="signincheck"
                   href="/login"
-                  data-toggle="modal"
-                  data-target="#exampleModal1"
                 >
                   Sign in
-                </button>
+                </a>
               </li>
               <li className="nav-item button">
-                <button
+                <a
                   className="btn-signup nav-link signupcheck"
-                  href="#"
-                  data-toggle="modal"
-                  data-target="#exampleModal"
+                  href="/signup"
                 >
                   SIGN UP
-                </button>
+                </a>
               </li>
             </ul>
           </div>

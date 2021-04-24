@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { withRouter } from "react-router";
 
-export default class ModalSignin extends Component {
+ class ModalSignin extends Component {
   state = {
     fields: {
       email: "",
@@ -31,7 +32,9 @@ export default class ModalSignin extends Component {
         console.log(res);
         console.log(res.data);
         if (res.status < 300 && res.status > 199) {
-          alert("Login successful!");
+          this.props.history.push("/videocall");
+
+          // alert("Login successful!");
         }
       })
       .catch(function (error) {
@@ -58,12 +61,10 @@ export default class ModalSignin extends Component {
   render() {
     return (
       <div
-        className="modal fade"
         id="exampleModal1"
         tabIndex={-1}
         role="dialog"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
       >
         <div className="modal-dialog" style={{ width: 350 }} role="document">
           <div className="modal-content">
@@ -120,3 +121,5 @@ export default class ModalSignin extends Component {
     );
   }
 }
+
+export default withRouter(ModalSignin);
