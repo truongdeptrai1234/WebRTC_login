@@ -67,11 +67,11 @@ function VideoCall() {
         iceServers: [
           {
             urls: "stun.l.google.com:19302",
-            username: "phattrienungdungwebt4",
+            username: "phattrienungdungwebt4@gmail.com",
             credential: "mzVBF6PsKTcDr2J",
           },
           {
-            url: "turn:turn.bistri.com:80",
+            url: "turn.bistri.com:80",
             credential: "homeo",
             username: "homeo",
           },
