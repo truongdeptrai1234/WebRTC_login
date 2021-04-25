@@ -65,16 +65,8 @@ function VideoCall() {
       trickle: false,
       config: {
         iceServers: [
-          {
-            urls: "stun.l.google.com:19302",
-            username: "phattrienungdungwebt4@gmail.com",
-            credential: "mzVBF6PsKTcDr2J",
-          },
-          {
-            url: "turn.bistri.com:80",
-            credential: "homeo",
-            username: "homeo",
-          },
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
         ],
       },
       stream: stream,
