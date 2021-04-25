@@ -66,14 +66,12 @@ function VideoCall() {
       config: {
         iceServers: [
           {
-            urls: "stun:numb.viagenie.ca",
-            username: "sultan1640@gmail.com",
-            credential: "98376683",
+            urls: "stun.l.google.com:19302",
           },
           {
-            urls: "turn:numb.viagenie.ca",
-            username: "sultan1640@gmail.com",
-            credential: "98376683",
+            url: "turn:turn.bistri.com:80",
+            credential: "homeo",
+            username: "homeo",
           },
         ],
       },
