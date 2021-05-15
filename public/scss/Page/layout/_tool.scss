@@ -1,0 +1,54 @@
+.interract{
+    height:500px;
+}
+
+.interact .menu{
+    border-radius: 10px;
+    background-image:linear-gradient(rgba(92, 91, 91, 0.13),gray);
+    .appear{
+        border-radius: 10px;
+        position:absolute;
+        opacity: 0;
+        transform: translate(-7.5%,-68%);
+        transition: all 0.5s;
+        background-color: rgba(0, 0, 0, 0.527);
+        color: white;
+        width: 80%;
+        height: 80%;
+        padding-top: 40px; 
+    }
+    .item{
+        position: relative;
+        font-size: 2.5rem;
+        text-align: center;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 30px 30px ;
+        background-color: $color-white-0;
+        &:hover .appear{
+            opacity: 1;
+            cursor: pointer;
+        }
+        i{
+            padding-top: 20px;
+        }
+    }
+    display: grid;
+    grid-template-columns: auto auto ;
+    .item1{
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+    h5{
+        font-size: 1.5rem;
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    
+
+}
+
+
+
+
+
