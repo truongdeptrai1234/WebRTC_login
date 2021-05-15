@@ -32,7 +32,7 @@ import { withRouter } from "react-router";
         console.log(res);
         console.log(res.data);
         if (res.status < 300 && res.status > 199) {
-          this.props.history.push("/videocall");
+          this.props.history.push("/friends");
 
           // alert("Login successful!");
         }

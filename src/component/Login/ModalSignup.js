@@ -58,7 +58,7 @@ export default class ModalSignup extends Component {
       };
 
       axios
-        .post("https://webrtc-api.ddns.net/auth/signup", user)
+        .put("https://webrtc-api.ddns.net/auth/signup", user)
         .then((res) => {
           console.log(res);
           console.log(res.data);

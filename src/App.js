@@ -6,6 +6,7 @@ import ModalSignin from "./component/Login/ModalSignin";
 import ModalSignup from "./component/Login/ModalSignup";
 import VideoCall from "./component/Home/VideoCall";
 import "./App.css";
+import FriendList from "./component/Home/FriendList";
 
 import {
   BrowserRouter as Router,
@@ -20,20 +21,27 @@ import {
 function App() {
   return (
     <Router>
-      <Header />
       <div>
         <Switch>
           <Route exact path="/">
+            <Header />
             <Banner />
           </Route>
           <Route exact path="/login">
+            <Header />
             <ModalSignin />
           </Route>
           <Route exact path="/signup">
+            <Header />
             <ModalSignup />
           </Route>
           <Route exact path="/videocall">
+            <Header />
             <VideoCall />
+          </Route>
+          <Route exact path="/friends">
+            <Header />
+            <FriendList />
           </Route>
         </Switch>
       </div>
