@@ -10,3 +10,10 @@
     border: 2px solid $bcolor;
     border-radius: 7px;
 }
+@mixin icon($bg,$size,$color,$pd-x,$pd-y){
+    background-color: $bg;
+    font-size: $size;
+    color: $color;
+    padding: $pd-x $pd-y;
+    border-radius: 50%;
+}
