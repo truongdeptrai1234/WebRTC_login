@@ -1,10 +1,11 @@
-import logo from "./logo.svg";
 import Header from "./component/Login/Header";
 import LoginPage from "./component/Login/LoginPage";
-import Banner from "./component/Login/Banner";
+import About from "./component/Login/About";
 import ModalSignin from "./component/Login/ModalSignin";
+import Logout from "./component/Login/Logout";
 import ModalSignup from "./component/Login/ModalSignup";
 import VideoCall from "./component/Home/VideoCall";
+import Home from "./component/Home/Home";
 import "./App.css";
 import FriendList from "./component/Home/FriendList";
 
@@ -25,15 +26,23 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Header />
-            <Banner />
+            <Home />
+          </Route>
+          <Route exact path="/about">
+            <Header />
+            <About />
+          </Route>
+          <Route exact path="/signup">
+            <Header />
+            <ModalSignup />
           </Route>
           <Route exact path="/login">
             <Header />
             <ModalSignin />
           </Route>
-          <Route exact path="/signup">
+          <Route exact path="/logout">
             <Header />
-            <ModalSignup />
+            <Logout />
           </Route>
           <Route exact path="/videocall">
             <Header />

@@ -1,38 +1,31 @@
-import React from "react";
-import FriendItem from "./FriendItem";
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { withRouter, useHistory } from "react-router";
 import axios from "axios";
-import { useHistory } from "react-router";
 import env from "react-dotenv";
 
-const FriendList = ({ skip, limit }) => {
+const Logout = () => {
   const history = useHistory();
-  const [user, setUser] = useState(() => {
+  useEffect(() => {
     if (localStorage.getItem("user") === null) {
       history.push("/login");
     } else {
-      let data = JSON.parse(localStorage.getItem("user"));
-      console.log(data);
-      return data;
-    }
-  });
-  const [friends, setFriends] = useState([]);
-
-  useEffect(() => {
-    const update = async () => {
-      let data = [];
-      await axios
-        .get(env.API_URL + "/user-friend/friends", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        })
+      const user = JSON.parse(localStorage.getItem("user"));
+      axios
+        .put(
+          env.API_URL + "/auth/logout",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        )
         .then((res) => {
           console.log(res);
           console.log(res.data);
           if (res.status < 300 && res.status > 199) {
-            data = res.data.slice();
-            console.log(data);
+            localStorage.removeItem("user");
+            history.push("/login");
           }
         })
         .catch(function (error) {
@@ -54,28 +47,9 @@ const FriendList = ({ skip, limit }) => {
           }
           console.log(error.config);
         });
-      setFriends(data);
-    };
-    update();
-    console.log(friends);
-  }, []);
-
-  return (
-    <div>
-      {friends.length === 0 ? (
-        <h1>You have no friend :(</h1>
-      ) : (
-        friends.map((friend, index) => (
-          <FriendItem key={index} friend={friend} />
-        ))
-      )}
-    </div>
-  );
+    }
+  });
+  return <div></div>;
 };
 
-FriendList.defaultProps = {
-  skip: 0,
-  limit: 50,
-};
-
-export default FriendList;
+export default withRouter(Logout);

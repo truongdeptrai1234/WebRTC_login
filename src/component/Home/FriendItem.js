@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
-const FriendItem = ({ friend }) => {
+const FriendItem = ({friend}) => {
+  const [dummy, setDummy] = useState(() => {
+    console.log(friend);
+    return null;
+  });
   return (
     <div>
       <h1>
-        <span>{friend.fname}</span>
-        <span>{friend.lname}</span>
-        <span>{friend.email}</span>
+        <span>{friend.toUser.fullName}</span>
       </h1>
     </div>
   );
 };
 
 FriendItem.defaultProps = {
-  friend: { fname: "First", lname:"Last", email: "example@mail.com"}
+  friend: { toUser: { fullName: "example" } },
 };
 
 export default FriendItem;

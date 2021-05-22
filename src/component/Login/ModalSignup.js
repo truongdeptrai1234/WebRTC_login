@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { withRouter } from "react-router";
+import env from "react-dotenv";
 
-export default class ModalSignup extends Component {
+class ModalSignup extends Component {
   state = {
     fields: {
       email: "",
@@ -12,6 +14,12 @@ export default class ModalSignup extends Component {
     },
     errors: {},
   };
+
+  componentDidMount() {
+    if (!(localStorage.getItem("user") === null)) {
+      this.props.history.push("/");
+    }
+  }
 
   handleChange(field, e) {
     let fields = this.state.fields;
@@ -58,11 +66,12 @@ export default class ModalSignup extends Component {
       };
 
       axios
-        .put("https://webrtc-api.ddns.net/auth/signup", user)
+        .put(env.API_URL + "/auth/signup", user)
         .then((res) => {
           console.log(res);
           console.log(res.data);
           if (res.status < 300 && res.status > 199) {
+            this.props.history.push("/login");
             alert("Account created! Please login.");
           }
         })
@@ -192,3 +201,5 @@ export default class ModalSignup extends Component {
     );
   }
 }
+
+export default withRouter(ModalSignup);

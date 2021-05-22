@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class Banner extends Component {
+export default class About extends Component {
   render() {
     return (
       <section className="d-flex align-items-center justify-content-around banner">

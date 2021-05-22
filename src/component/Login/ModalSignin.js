@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import axios from "axios";
+import env from "react-dotenv";
 import { withRouter } from "react-router";
 
- class ModalSignin extends Component {
+class ModalSignin extends Component {
   state = {
     fields: {
       email: "",
@@ -10,6 +11,12 @@ import { withRouter } from "react-router";
     },
     errors: {},
   };
+
+  componentDidMount() {
+    if (!(localStorage.getItem("user") === null)) {
+      this.props.history.push("/friends");
+    }
+  }
 
   handleChange(field, e) {
     let fields = this.state.fields;
@@ -21,20 +28,23 @@ import { withRouter } from "react-router";
   handleSubmit = (event) => {
     event.preventDefault();
 
+    if (!(localStorage.getItem("user") === null)) {
+      this.props.history.push("/");
+    }
+
     const user = {
       email: this.state.fields["email"],
       password: this.state.fields["password"],
     };
 
     axios
-      .post("https://webrtc-api.ddns.net/auth/login", user)
+      .post(env.API_URL + "/auth/login", user)
       .then((res) => {
         console.log(res);
         console.log(res.data);
         if (res.status < 300 && res.status > 199) {
-          this.props.history.push("/friends");
-
-          // alert("Login successful!");
+          localStorage.setItem("user", JSON.stringify(res.data));
+          this.props.history.push("/");
         }
       })
       .catch(function (error) {
@@ -64,7 +74,7 @@ import { withRouter } from "react-router";
         id="exampleModal1"
         tabIndex={-1}
         role="dialog"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="exampleModalLabel" 
       >
         <div className="modal-dialog" style={{ width: 350 }} role="document">
           <div className="modal-content">
