@@ -1,4 +1,4 @@
-import React, {  useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 
 // USE THIS IF RUN USING WEBPACK #FixReact
 import { WebRTCPeer } from '@/adapters/webrtc-peer'
@@ -77,22 +77,30 @@ function VideoCall() {
 		})
 	}
 
+	const onOffered = (data) => {
+		setTargetUser(data?.fromUserNID)
+		setCallState({
+			...callState,
+			isOffered: true,
+			isCallee: true
+		})
+	}
+
+	const onAnswered = () => {
+		setCallState({
+			...callState,
+			isAnswered: true,
+			isInCall: true
+		})
+		console.log(callState)
+		connectRemoteStream()
+	}
 	const registerSocketListeners = () => {
 		webrtcPeer.registerSocketListener('offered', (data) => {
-			setTargetUser(data?.fromUserNID)
-			setCallState({
-				...callState,
-				isOffered: true,
-				isCallee: true
-			})
+			onOffered.bind(this)(data)
 		})
 		webrtcPeer.registerSocketListener('answered', (data) => {
-			setCallState({
-				...callState,
-				isAnswered: true,
-				isInCall: true
-			})
-			connectRemoteStream()
+			onAnswered()
 		})
 		webrtcPeer.registerSocketListener('callhangup', () => {
 			resetCallStatus()
@@ -159,10 +167,10 @@ function VideoCall() {
 	}
 
 	const hangUpCall = async () => {
-		if (!callState.isInCall) {
-			console.log('Not in call yet, cant hang up')
-			return
-		}
+		// if (!callState.isOffered) {
+		// 	console.log('Not in call yet, cant hang up')
+		// 	return
+		// }
 		console.log('Manual hang up')
 		await webrtcPeer.hangUpCall('hangup', true)
 		resetCallStatus()
@@ -170,10 +178,10 @@ function VideoCall() {
 	}
 
 	const rejectCall = async () => {
-		if (!callState.isInCall) {
-			console.log('Not in call yet, cant reject')
-			return
-		}
+		// if (!callState.isOffered) {
+		// 	console.log('Not in call yet, cant reject')
+		// 	return
+		// }
 		console.log('Reject call')
 		await webrtcPeer.hangUpCall('rejected', true)
 		resetCallStatus()
