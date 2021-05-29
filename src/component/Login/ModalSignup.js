@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { withRouter } from "react-router";
 import env from "react-dotenv";
+import { environment } from '../../environment/index'
 
 class ModalSignup extends Component {
   state = {
@@ -66,7 +67,7 @@ class ModalSignup extends Component {
       };
 
       axios
-        .put(env.API_URL + "/auth/signup", user)
+        .put(environment.baseApiURL + "/auth/signup", user)
         .then((res) => {
           console.log(res);
           console.log(res.data);

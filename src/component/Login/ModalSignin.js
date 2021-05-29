@@ -2,6 +2,7 @@ import React, { Component, useEffect } from "react";
 import axios from "axios";
 import env from "react-dotenv";
 import { withRouter } from "react-router";
+import { environment } from '../../environment/index'
 
 class ModalSignin extends Component {
   state = {
@@ -38,7 +39,7 @@ class ModalSignin extends Component {
     };
 
     axios
-      .post(env.API_URL + "/auth/login", user)
+      .post(environment.baseApiURL + "/auth/login", user)
       .then((res) => {
         console.log(res);
         console.log(res.data);
