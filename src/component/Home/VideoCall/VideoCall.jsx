@@ -4,11 +4,13 @@ import React, { useState, useRef, useMemo } from 'react'
 import { WebRTCPeer } from '@/adapters/webrtc-peer'
 import { SocketIO } from '@/adapters/SocketIO'
 import { environment } from '@/environment'
+import { useStateRef } from '@/hooks/useStateRef'
 
 // TODO: USE THIS IF USE NORMAL REACT #FixReact
 // import { WebRTCPeer } from '../../../adapters/webrtc-peer'
 // import { SocketIO } from '../../../adapters/SocketIO'
 // import { environment } from '../../../environment'
+// import { useStateRef } from '../../../hooks/useStateRef'
 
 import './VideoCall.css'
 import { ActiveButton } from './Button'
@@ -35,7 +37,7 @@ function VideoCall() {
 	const localVideoRef = useRef(null)
 	const remoteVideoRef = useRef(null)
 
-	const [callState, setCallState] = useState(initialCallState)
+	const [callState, setCallState, callStateRef] = useStateRef(initialCallState)
 
 	const [connStatus, setConnStatus] = useState({
 		connectionStatus: 'not connected',
@@ -78,9 +80,10 @@ function VideoCall() {
 	}
 
 	const onOffered = (data) => {
+		console.log(callStateRef)
 		setTargetUser(data?.fromUserNID)
 		setCallState({
-			...callState,
+			...callStateRef.current,
 			isOffered: true,
 			isCallee: true
 		})
@@ -88,7 +91,7 @@ function VideoCall() {
 
 	const onAnswered = () => {
 		setCallState({
-			...callState,
+			...callStateRef.current,
 			isAnswered: true,
 			isInCall: true
 		})
@@ -121,7 +124,6 @@ function VideoCall() {
 	}
 
 	const registerCurrentUser = () => {
-		console.log('register current user')
 		setuserRegistered(true)
 		webrtcPeer.setCurrentUser({
 			userNanoId: currentUser
@@ -131,6 +133,7 @@ function VideoCall() {
 
 	const acceptCall = async () => {
 		setCallState({
+			...callState,
 			isCallee: true,
 			isAnswered: true,
 			isInCall: true
@@ -163,7 +166,6 @@ function VideoCall() {
 		await webrtcPeer.createOutgoingCall({
 			userNanoId: targetUser
 		})
-		console.log('CReate call')
 	}
 
 	const hangUpCall = async () => {
