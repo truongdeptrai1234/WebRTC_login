@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useRef, useMemo, createRef } from 'react'
+import React, {  useState, useRef, useMemo } from 'react'
 
 // USE THIS IF RUN USING WEBPACK #FixReact
 import { WebRTCPeer } from '@/adapters/webrtc-peer'
 import { SocketIO } from '@/adapters/SocketIO'
+import { environment } from '@/environment'
 
 // TODO: USE THIS IF USE NORMAL REACT #FixReact
 // import { WebRTCPeer } from '../../../adapters/webrtc-peer'
 // import { SocketIO } from '../../../adapters/SocketIO'
+// import { environment } from '../../../environment'
 
 import './VideoCall.css'
 import { ActiveButton } from './Button'
@@ -22,7 +24,7 @@ const initialCallState = {
 function VideoCall() {
 	const webrtcPeer = useMemo(() => {
 		console.log('Create webrtc peer')
-		return new WebRTCPeer(SocketIO.getSocket(), false)
+		return new WebRTCPeer(SocketIO.getSocket(), environment.isProduction)
 	}, [])
 	const [currentUser, setCurrentUser] = useState(null)
 	const [userRegistered, setuserRegistered] = useState(false)
