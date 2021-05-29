@@ -14,6 +14,10 @@ export class SocketIO {
 			secure: true,
 			transports: ['websocket'],
 		});
+
+		this.socket.on('connect', () => console.log("Socket connected"))
+		.on('disconnect', () => console.log("Socket disconnected"))
+		.on('reconnect', () => console.log("Socket reconnected"))
 		return this.socket;
 	}
 

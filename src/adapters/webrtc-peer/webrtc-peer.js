@@ -1,10 +1,3 @@
-
-export const DEVICE_TYPE = {
-  AUDIO_INPUT = 'audioinput',
-  VIDEO_INPUT = 'videoinput',
-}
-
-
 export class WebRTCPeer {
   isProduction = false;
 
@@ -143,7 +136,6 @@ export class WebRTCPeer {
       this.onConnectionStateChange();
 
     this._peerConnection.ontrack = this.onTrackEvent();
-
     this._peerConnection.onicecandidateerror = this.onIceCandidateError();
     this._peerConnection.onicecandidate = this.onIceCandidate();
 
@@ -185,19 +177,18 @@ export class WebRTCPeer {
   onIceCandidateError() {
     return (event) => {
       const { errorCode, errorText, url, type } = event;
-      this.logger.error('RTCIceConnection error: ', {
+      this.logger.error('RTC Ice Connection Error: ', {
         errorCode,
         errorText,
         url,
         type,
-      });
+      }, ".This error can be ignored if connection is established");
     };
   }
 
   onIceCandidate() {
     return (event) => {
       if (this.isCallee) {
-        console.log(event, `<======= event [webrtc-peer.ts - 202]`);
         this.emitIceEvent(event.candidate);
       }
       if (this.isCaller) {
@@ -310,11 +301,11 @@ export class WebRTCPeer {
 
   getAvailableMediaSources(devices) {
     const audio =
-      !!devices.find((device) => device.kind === DEVICE_TYPE.AUDIO_INPUT) ||
+      !!devices.find((device) => device.kind === 'audioinput') ||
       false;
 
     const video =
-      !!devices.find((device) => device.kind === DEVICE_TYPE.VIDEO_INPUT) ||
+      !!devices.find((device) => device.kind === "videoinput") ||
       false;
 
     return { audio, video };
@@ -325,17 +316,23 @@ export class WebRTCPeer {
   }
 
   async createLocalStream() {
-    const constraints = this.getCurrentUserMedia();
-    if (!constraints) {
-      this.logger.error('Cannot detect constraints for this device');
-      return Promise.resolve(null);
-    }
 
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    console.log(stream, '<======= CREATE LOCAL STREAMMMM');
-    this.connectLocalStreamTracks(stream);
-    this.logger.log('Local stream connected');
-    return stream;
+    let stream = null
+    try {
+      const constraints = this.getCurrentUserMedia();
+      if (constraints) {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        this.connectLocalStreamTracks(stream);
+        this.logger.log('Local stream connected');
+        return stream
+      } else {
+        this.logger.error("No device detected")
+        return null
+      }
+    } catch (err) {
+      this.logger.error("Create stream error", err)
+      return null
+    }
   }
 
   connectLocalStreamTracks(stream = null) {
@@ -428,7 +425,6 @@ export class WebRTCPeer {
       `Making call to target user: ${this.targetPeerUser.userNanoId}`
     );
     const offer = await this.createDescription('offer');
-    console.log('LOCAL ICE EVENT');
     this.socket.emit('call-offer', {
       type: 'offered',
       offer,
@@ -476,15 +472,6 @@ export class WebRTCPeer {
     return remoteDescription;
   }
 
-  async rejectedCall() {
-    const { fromUserNID: fromUserNID } = this.receivedOffer;
-    this.setReceivedOffer(null);
-    this.socket.emit('call-reject', {
-      toUserNID: fromUserNID,
-      reason: 'rejected',
-    });
-  }
-
   async hangUpCall(
     reason,
     emitToPeer = false
@@ -505,7 +492,6 @@ export class WebRTCPeer {
   }
 
   broadcastCachedIceCandidates() {
-    console.log("broadcastCachedIceCandidates", `<======= "broadcastCachedIceCandidates" [webrtc-peer.ts - 511]`);
     if (this._cachedIceEvents.length) {
       for (const event of this._cachedIceEvents) {
         this.emitIceEvent(event);
@@ -514,7 +500,6 @@ export class WebRTCPeer {
   }
 
   emitIceEvent(candidate) {
-    console.log(" EMIT ICE EVENT WEBBBBB ")
     this.socket.emit('ice-candidate', {
       type: 'icecandidate',
       iceCandidate: candidate,
@@ -550,9 +535,13 @@ export class WebRTCPeer {
       await this.createPeerConnection();
     }
 
-    // re-add tracks to new peer
-    this.connectLocalStreamTracks();
-    this.logger.log(`Reconnected local stream to new peer connection`);
+    if (this._localStream) {
+      // re-add tracks to new peer
+      this.connectLocalStreamTracks();
+      this.logger.log(`Reconnected local stream to new peer connection`);
+
+    }
+
     this.setCurrentUser(this.currentPeerUser);
   }
 

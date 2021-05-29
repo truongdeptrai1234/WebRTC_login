@@ -20,7 +20,6 @@ const config = {
     open: true,
     host: "localhost",
     disableHostCheck: true,
-    hot: true,
     historyApiFallback: true
   },
   plugins: [
