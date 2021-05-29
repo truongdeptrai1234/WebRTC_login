@@ -1,10 +1,10 @@
+import React from 'react'
 import Header from "./component/Login/Header";
-import LoginPage from "./component/Login/LoginPage";
 import About from "./component/Login/About";
 import ModalSignin from "./component/Login/ModalSignin";
 import Logout from "./component/Login/Logout";
 import ModalSignup from "./component/Login/ModalSignup";
-import VideoCall from "./component/Home/VideoCall";
+import { VideoCall } from './component/Home/VideoCall'
 import Home from "./component/Home/Home";
 import "./App.css";
 import FriendList from "./component/Home/FriendList";
@@ -13,10 +13,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  PrivateRoute,
-  ProtectedPage,
-  Link,
-  useParams,
 } from "react-router-dom";
 
 function App() {
@@ -59,3 +55,4 @@ function App() {
 }
 
 export default App;
+

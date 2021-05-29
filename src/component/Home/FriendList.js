@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import env from "react-dotenv";
+import { environment } from '../../environment/index'
 
 const FriendList = ({ skip, limit }) => {
   const history = useHistory();
@@ -22,7 +23,7 @@ const FriendList = ({ skip, limit }) => {
     const update = async () => {
       let data = [];
       await axios
-        .get(env.API_URL + "/user-friend/friends", {
+        .get(environment.baseApiURL + "/user-friend/friends", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

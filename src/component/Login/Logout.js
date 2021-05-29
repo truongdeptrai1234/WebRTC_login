@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { withRouter, useHistory } from "react-router";
 import axios from "axios";
 import env from "react-dotenv";
+import { environment } from '../../environment/index'
 
 const Logout = () => {
   const history = useHistory();
@@ -12,7 +13,7 @@ const Logout = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       axios
         .put(
-          env.API_URL + "/auth/logout",
+          environment.baseApiURL + "/auth/logout",
           {},
           {
             headers: {

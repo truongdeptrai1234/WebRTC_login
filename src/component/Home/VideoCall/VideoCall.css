@@ -1,0 +1,50 @@
+:host {
+	font-size: 16px;
+}
+
+.video-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.control-buttons {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-top: 1rem;
+}
+
+.video-sources {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 2rem;
+}
+.video-source > video {
+	float: left;
+}
+.video-source > .input-form {
+}
+.video-source > .input-form > input {
+	height: 2rem;
+	margin: 1rem 0.5rem;
+	border-radius: 10px;
+	outline: none;
+	border-width: 0;
+	padding: 0.1rem 0.5rem;
+}
+.video-overlay {
+	width: 320px;
+	height: 240px;
+	float: left;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.video-source {
+	background-color: aliceblue;
+}
